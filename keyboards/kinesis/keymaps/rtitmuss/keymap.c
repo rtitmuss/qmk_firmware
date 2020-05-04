@@ -35,21 +35,21 @@
      K31, K32, K33, K34, K35, K36 \
   ) \
   LAYOUT( \
-    RESET,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO, \
-    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO, \
+    RESET,  KC_BUZZ,KC_BUZZ,KC_BUZZ,KC_BUZZ,KC_BUZZ,KC_BUZZ,KC_BUZZ,KC_BUZZ,\
+    KC_BUZZ,KC_BUZZ,KC_BUZZ,KC_BUZZ,KC_BUZZ,KC_BUZZ,\
     K01,    K02,    K03,    K04,    K05,    K06, \
     K11,    K12,    K13,    K14,    K15,    K16, \
     K21,    K22,    K23,    K24,    K25,    K26, \
-    KC_NO,  KC_NO,  KC_NO,  KC_NO, \
-    KC_NO,  KC_NO,  KC_NO,  K32,    K33,    KC_NO, \
+    KC_BUZZ,KC_BUZZ,KC_BUZZ,KC_BUZZ,\
+    KC_BUZZ,KC_BUZZ,KC_BUZZ,K32,    K33,    KC_BUZZ,\
     \
-    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO, \
-	KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO, \
+    KC_BUZZ,KC_BUZZ,KC_BUZZ,KC_BUZZ,KC_BUZZ,KC_BUZZ,KC_BUZZ,KC_BUZZ,KC_BUZZ,\
+	KC_BUZZ,KC_BUZZ,KC_BUZZ,KC_BUZZ,KC_BUZZ,KC_BUZZ,\
 	K07,    K08,    K09,    K0A,    K0B,    K0C, \
 	K17,    K18,    K19,    K1A,    K1B,    K1C, \
 	K27,    K28,    K29,    K2A,    K2B,    K2C, \
-	KC_NO,  KC_NO,  KC_NO,  KC_NO, \
-    KC_NO,  KC_NO,  KC_NO,  KC_NO,  K34,    K35 \
+	KC_BUZZ,KC_BUZZ,KC_BUZZ,KC_BUZZ,\
+    KC_BUZZ,KC_BUZZ,KC_BUZZ,KC_BUZZ,K34,    K35 \
  )
 
 #define LAYOUT_CORNE_wrapper(...)       LAYOUT_CORNE(__VA_ARGS__)
@@ -61,19 +61,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_RAISE] = LAYOUT_CORNE_wrapper(RAISE_LAYOUT)
 };
 
+bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case KC_BUZZ:
+      if (record->event.pressed) {
+        PORTE = (PORTE & 0xBF) | ~0x40;
+        _delay_ms(100);
+        PORTE = (PORTE & 0xBF) | 0x40;
+      }
+      break;
+  }
+  return true;
+}
+
 layer_state_t layer_state_set_user(layer_state_t state) {
 
     switch (get_highest_layer(state)) {
     case _RAISE:
         PORTD = (PORTD & 0x6F) | ~0x80;
-        PORTE = (PORTE & 0xBF) | ~0x40;
         break;
     case _LOWER:
         PORTD = (PORTD & 0x6F) | ~0x10;
         break;
     default:
         PORTD = (PORTD & 0x6F) | 0x90;
-        PORTE = (PORTE & 0xBF) | 0x40;
     }
   return state;
 }

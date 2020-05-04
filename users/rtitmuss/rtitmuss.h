@@ -28,7 +28,8 @@ enum layers {
 
 enum custom_keycodes {
   RGBRST = SAFE_RANGE,
-  ALT_TAB
+  ALT_TAB,
+  KC_BUZZ
 };
 
 
