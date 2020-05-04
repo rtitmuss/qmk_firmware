@@ -27,6 +27,7 @@
 *                                 `--------------------'         `--------------------'
 */
 
+static uint8_t keycount = 0;
 
 #define LAYOUT_CORNE( \
      K01, K02, K03, K04, K05, K06, K07, K08, K09, K0A, K0B, K0C, \
@@ -62,6 +63,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
+  if (record->event.pressed) {
+    keycount++;
+    PORTD = (PORTD & 0xBF) | ((keycount & 1) << 6);
+    PORTC = (PORTC & 0x7F) | ((keycount & 2) << 6);
+  }
+
   switch (keycode) {
     case KC_BUZZ:
       if (record->event.pressed) {

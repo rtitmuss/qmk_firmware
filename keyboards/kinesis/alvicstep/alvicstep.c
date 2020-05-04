@@ -96,7 +96,7 @@ void led_set_kb(uint8_t usb_led) {
         leds &= ~0x80;
     if (usb_led & 1 << USB_LED_SCROLL_LOCK)
         leds &= ~0x20;
-    PORTD = (PORTD & 0x0F) | leds;
+    //PORTD = (PORTD & 0x0F) | leds;
 
 	led_set_user(usb_led);
 
