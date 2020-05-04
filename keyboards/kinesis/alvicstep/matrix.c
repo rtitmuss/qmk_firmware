@@ -83,7 +83,11 @@ void matrix_init(void)
     // output high (leds)
     DDRD    = 0xFF;
     PORTD   = 0xFF;
-    
+
+    // output high (buzz)
+    DDRE    = 0x40;
+    PORTE   = 0x40;
+
     // output low (multiplexers)
     DDRF    = 0xFF;
     PORTF   = 0x00;
@@ -93,7 +97,7 @@ void matrix_init(void)
     PORTB   = 0xFF;
     
     // input with pullup (program and keypad buttons)
-    DDRC    = 0x00;
+    DDRC    = 0x80;
     PORTC   = 0xFF;
     
     // initialize row and col
@@ -182,7 +186,8 @@ static matrix_row_t read_row(uint8_t row)
 	{
 		return ~(PINC | 0b00111111);
 	}
-	return ~PINB;
+
+    return ~((PINB & 0b11111110) | ((PINC >> 6) & 0b1));
 }
 
 static void unselect_rows(void)
