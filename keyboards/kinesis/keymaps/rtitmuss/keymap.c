@@ -59,7 +59,8 @@ static uint8_t keycount = 0;
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_CORNE_wrapper(QWERTY_LAYOUT),
   [_LOWER] = LAYOUT_CORNE_wrapper(LOWER_LAYOUT),
-  [_RAISE] = LAYOUT_CORNE_wrapper(RAISE_LAYOUT)
+  [_RAISE] = LAYOUT_CORNE_wrapper(RAISE_LAYOUT),
+  [_HEXPAD] = LAYOUT_CORNE_wrapper(HEXPAD_LAYOUT)
 };
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
