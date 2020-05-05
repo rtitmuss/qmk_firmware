@@ -7,6 +7,7 @@ enum layers {
   _QWERTY,
   _LOWER,
   _RAISE,
+  _HEXPAD,
   _ADJUST
 };
 
@@ -29,7 +30,16 @@ enum layers {
 enum custom_keycodes {
   RGBRST = SAFE_RANGE,
   ALT_TAB,
-  KC_BUZZ
+  KC_BUZZ,
+  KC_HEX_1,
+  KC_HEX_2,
+  KC_HEX_4,
+  KC_HEX_8,
+  KC_HEX_16,
+  KC_HEX_32,
+  KC_HEX_64,
+  KC_HEX_128,
+  KC_HEX_ENTER
 };
 
 
@@ -37,7 +47,7 @@ enum custom_keycodes {
      KC_TAB, KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,        KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,     KC_QUOT, \
      G(KC_V),_LALT_A,_LGUI_S,_LCTL_D,_LSFT_F,KC_G,        KC_H,   _RSFT_J,_RCTL_K,_RGUI_L,_LALT_SC, KC_RPRN, \
      G(KC_C),KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,        KC_N,   KC_M,   KC_COMM,KC_DOT, KC_SLSH,  KC_RBRC, \
-                            _TO_ADJ,_LR_BSP,_LL_DEL,   _LL_ENT,_LR_SPC,KC_NO
+                            _TO_ADJ,_LR_BSP,_LL_DEL,   _LL_ENT,_LR_SPC,TG(_HEXPAD)
 
 #define LOWER_LAYOUT \
      KC_ESC, KC_EXLM,KC_AT,  KC_HASH,KC_DLR, KC_PERC,     KC_CIRC,KC_AMPR,KC_ASTR,KC_LPRN,KC_RPRN,  KC_MINS, \
@@ -50,3 +60,9 @@ enum custom_keycodes {
      KC_NO,  KC_MS_L,KC_MS_D,KC_MS_R,KC_BTN1,KC_NO,       S(KC_DOWN),KC_LEFT,KC_DOWN,KC_RGHT,KC_PGDN,KC_NO, \
      KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,       A(KC_BSPC),A(KC_LEFT),S(A(KC_RGHT)),A(KC_RGHT),KC_NO,KC_NO, \
                              KC_TRNS,KC_TRNS,KC_TRNS,   KC_TRNS,KC_TRNS,KC_TRNS
+
+#define HEXPAD_LAYOUT \
+     KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,       KC_NO,  KC_HOME,KC_UP,  KC_END, KC_PGUP,  KC_NO, \
+     KC_NO,KC_HEX_128,KC_HEX_64,KC_HEX_32,KC_HEX_16,KC_NO,    KC_NO,KC_HEX_8,KC_HEX_4,KC_HEX_2,KC_HEX_1,KC_NO, \
+     KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,       KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,    KC_NO, \
+                             KC_TRNS,KC_TRNS,KC_TRNS,   KC_HEX_ENTER,KC_TRNS,KC_TRNS
