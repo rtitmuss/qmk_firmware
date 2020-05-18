@@ -220,6 +220,12 @@ void render_layer_state(void) {
     }
 }
 
+void render_wpm(void) {
+    char buf[10];
+    itoa(get_current_wpm(), buf, 10);
+    oled_write(buf, false);
+}
+
 void render_status_main(void) {
     render_logo();
     render_space();
@@ -227,6 +233,8 @@ void render_status_main(void) {
     render_space();
     render_mod_status_gui_alt(get_mods()|get_oneshot_mods());
     render_mod_status_ctrl_shift(get_mods()|get_oneshot_mods());
+    render_space();
+    render_wpm();
 }
 
 void render_status_secondary(void) {
@@ -236,6 +244,8 @@ void render_status_secondary(void) {
     render_space();
     render_mod_status_gui_alt(get_mods()|get_oneshot_mods());
     render_mod_status_ctrl_shift(get_mods()|get_oneshot_mods());
+    render_space();
+    render_wpm();
 }
 
 void oled_task_user(void) {
