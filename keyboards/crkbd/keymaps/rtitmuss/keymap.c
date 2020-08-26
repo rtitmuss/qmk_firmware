@@ -28,6 +28,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 int RGB_current_mode;
+uint8_t max_wpm;
 
 // Setting ADJUST layer RGB back to default
 void update_tri_layer_RGB(uint8_t layer1, uint8_t layer2, uint8_t layer3) {
@@ -45,7 +46,6 @@ void matrix_init_user(void) {
 }
 
 #ifdef OLED_DRIVER_ENABLE
-oled_rotation_t oled_init_user(oled_rotation_t rotation) { return OLED_ROTATION_270; }
 
 void render_space(void) {
     oled_write_P(PSTR("     "), false);
@@ -220,6 +220,12 @@ void render_layer_state(void) {
     }
 }
 
+void render_wpm(uint8_t wpm) {
+    char buf[4];
+    itoa(wpm, buf, 10);
+    oled_write_ln(buf, false);
+}
+
 void render_status_main(void) {
     render_logo();
     render_space();
@@ -227,6 +233,8 @@ void render_status_main(void) {
     render_space();
     render_mod_status_gui_alt(get_mods()|get_oneshot_mods());
     render_mod_status_ctrl_shift(get_mods()|get_oneshot_mods());
+    render_space();
+    render_wpm(get_current_wpm());
 }
 
 void render_status_secondary(void) {
@@ -236,6 +244,11 @@ void render_status_secondary(void) {
     render_space();
     render_mod_status_gui_alt(get_mods()|get_oneshot_mods());
     render_mod_status_ctrl_shift(get_mods()|get_oneshot_mods());
+    render_space();
+
+    uint8_t wpm = get_current_wpm();
+    max_wpm = (wpm > max_wpm) ? wpm : max_wpm;
+    render_wpm(max_wpm);
 }
 
 void oled_task_user(void) {
@@ -290,6 +303,7 @@ void suspend_power_down_keymap(void) {
 
 void suspend_wakeup_init_keymap(void) {
     rgb_matrix_set_suspend_state(false);
+    max_wpm = 0;
 }
 
 #endif
